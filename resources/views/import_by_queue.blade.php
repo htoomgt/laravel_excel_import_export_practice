@@ -8,8 +8,13 @@
 <body>
     <div class="container mx-auto border mt-4">
         <h1 class="text-2xl text-center"> Test Import With Queue</h1>
-        <form action="{{route('importWithQueue.save')}}" method="post">
+        <form action="{{route('importWithQueue.save')}}" method="post" enctype="multipart/form-data">
             @csrf 
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success">
+                    <strong>{{ $message }}</strong>
+                </div>
+            @endif
             <div class="flex flex-row">               
 
                 
