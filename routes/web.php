@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpreadSheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/test-tailwind', function(){
+    return view('test_tailwind');
+});
+
+
+Route::get('/import-by-queue', [SpreadSheetController::class,'showQueuImportPage']);
