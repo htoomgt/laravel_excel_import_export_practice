@@ -8,7 +8,8 @@
 <body>
     <div class="container mx-auto border mt-4">
         <h1 class="text-2xl text-center"> Test Import With Queue</h1>
-        <form action="#">
+        <form action="{{route('importWithQueue.save')}}" method="post">
+            @csrf 
             <div class="flex flex-row">               
 
                 

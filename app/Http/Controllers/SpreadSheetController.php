@@ -11,4 +11,10 @@ class SpreadSheetController extends Controller
     {
         return view("import_by_queue");
     }
+
+
+    public function importFileWithQueue(Request $request)
+    {
+        dd($request->all());
+    }
 }

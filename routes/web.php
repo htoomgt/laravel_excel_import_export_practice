@@ -24,4 +24,5 @@ Route::get('/test-tailwind', function(){
 });
 
 
-Route::get('/import-by-queue', [SpreadSheetController::class,'showQueuImportPage']);
+Route::get('/import-by-queue', [SpreadSheetController::class,'showQueuImportPage'])->name('importWithQueue.show');
+Route::post('/import-by-queue', [SpreadSheetController::class,'importFileWithQueue'])->name('importWithQueue.save');
