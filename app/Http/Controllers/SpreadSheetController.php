@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SpreadSheetController extends Controller
 {
-    
+
     public function showQueuImportPage()
     {
         return view("import_by_queue");
@@ -22,17 +22,7 @@ class SpreadSheetController extends Controller
 
     public function importFileWithQueue(Request $request)
     {
-        // $faker = \Faker\Factory::create();    
 
-        // for($i=1; $i<=10000; $i++){
-        //     $developer = Developer::create([
-        //         'fullname' =>  $faker->name(),
-        //         'email' => $faker->email(),
-        //         'phone' => $faker->randomNumber()
-        //     ]);    
-
-        //     Log::info("developer info : ". json_encode($developer));
-        // }
 
         // dd($request->all());
 
@@ -43,7 +33,7 @@ class SpreadSheetController extends Controller
 
         foreach ($arrDevelopers[0] as $key => $developer) {
 
-            
+
             if($arrDevelopers[0][0] == $developer){
                 continue;
             }
@@ -63,5 +53,35 @@ class SpreadSheetController extends Controller
         }
 
         return back()->with('success', 'File Content has been imported successfully!');
+    }
+
+
+    /**
+     * To generate specific row count of data
+     *
+     * @author Htoo Maung Thait
+     * @since 2023-03-20
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function generateData(Request $request)
+    {
+        $rowCount = $request->rowCount ?? 2000;
+
+        $faker = \Faker\Factory::create();
+
+        for($i = 1; $i <= $rowCount; $i++){
+            $developer = new Developer();
+            $developer->fullname = $faker->name;
+            $developer->email = $faker->email;
+            $developer->phone = $faker->randomNumber();
+            $developer->save();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data generated successfully!'
+        ]);
     }
 }
