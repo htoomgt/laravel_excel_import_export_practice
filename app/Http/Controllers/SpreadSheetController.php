@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Developer;
 use Illuminate\Http\Request;
 use App\Imports\DeveloperImport;
-use App\Jobs\ProcessCreateDeveloper;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Jobs\ProcessCreateDeveloper;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DeveloperImportDirect;
 
 
 class SpreadSheetController extends Controller
@@ -16,7 +17,7 @@ class SpreadSheetController extends Controller
 
     public function showQueuImportPage()
     {
-        return view("import_by_queue");
+        return view("import.import_by_queue");
     }
 
 
@@ -24,7 +25,9 @@ class SpreadSheetController extends Controller
     {
 
 
-        // dd($request->all());
+        $request->validate([
+            'importingFile' => 'required|mimes:xlsx,xls,csv,txt'
+        ]);
 
 
         $arrDevelopers = \Maatwebsite\Excel\Facades\Excel::toArray(new DeveloperImport(), $request->file('importingFile'),null,\Maatwebsite\Excel\Excel::XLSX);
@@ -83,5 +86,29 @@ class SpreadSheetController extends Controller
             'status' => 'success',
             'message' => 'Data generated successfully!'
         ]);
+    }
+
+
+    public function showLaravelExcelImportPage()
+    {
+        return view("import.import_by_laravel_excel");
+    }
+
+    public function importFileWithLaravelExcel(Request $request)
+    {
+        $request->validate([
+            'importingFile' => 'required|mimes:xlsx,xls,csv,txt'
+        ]);
+
+        \Maatwebsite\Excel\Facades\Excel::import(new DeveloperImportDirect(), $request->file('importingFile'),null,\Maatwebsite\Excel\Excel::XLSX);
+
+
+
+        return back()->with('success', 'File Content has been imported successfully!');
+    }
+
+    public function developersShowPage()
+    {
+        return view("export.developers_show");
     }
 }
